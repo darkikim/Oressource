@@ -2,10 +2,10 @@
 
 ## Sémantique des numéros de version
 
-Le premier numéro indique des changements majeurs qui cassent par exemple l'api
-ou des usages du logiciel
-Le second numéro des changements moyen visible par le developpeur ou
-l'utilisateur.
+[Gestion sémantique de version](https://semver.org/lang/fr)
+
+Le premier numéro indique des changements majeurs qui cassent par exemple l'api ou des usages du logiciel.
+Le second numéro des changements moyen visible par le developpeur ou l'utilisateur.
 Le dernier des fix de bug.
 
 ## Changements
