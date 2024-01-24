@@ -334,9 +334,9 @@ CREATE TABLE `pesees_sorties` (
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `masse` decimal(7,3) NOT NULL,
   `id_sortie` int(11) NOT NULL,
-  `id_type_dechet` int(11) DEFAULT 'NULL',
-  `id_type_poubelle` int(11) DEFAULT 'NULL',
-  `id_type_dechet_evac` int(11) DEFAULT 'NULL',
+  `id_type_dechet` int(11) DEFAULT NULL,
+  `id_type_poubelle` int(11) DEFAULT NULL,
+  `id_type_dechet_evac` int(11) DEFAULT NULL,
   `id_createur` int(11) NOT NULL DEFAULT '0',
   `id_last_hero` int(11) NOT NULL DEFAULT '0',
   `last_hero_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -909,10 +909,10 @@ CREATE TABLE `type_transactions` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `moyens_paiement`
+-- Dumping data for table `type_transactions`
 --
 
-LOCK TABLES `moyens_paiement` WRITE;
+LOCK TABLES `type_transactions` WRITE;
 
 
 INSERT INTO `type_transactions` VALUES (1,'2023-02-01 00:00:00','Erreur de caisse','Différence entre le montant enregistré dans Oressource et le montant réellement perçu','#E23343',1,1,1,'2023-02-01 00:00:00'),(2,'2023-02-01 00:00:00','Don','Don en argent','#32B0E7',1,1,1,'2023-02-01 00:00:00'),(3,'2023-02-01 00:00:00','Adhésion','Adhésion des individus à la structure','#32E7B6',1,1,1,'2023-02-01 00:00:00');
@@ -944,6 +944,6 @@ CREATE TABLE `autres_transactions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `autres_transactions` WRITE;
-/*!40000 ALTER TABLE `ventes` DISABLE KEYS */;
-/*!40000 ALTER TABLE `ventes` ENABLE KEYS */;
+/*!40000 ALTER TABLE `autres_transactions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `autres_transactions` ENABLE KEYS */;
 UNLOCK TABLES;
