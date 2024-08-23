@@ -211,6 +211,7 @@ if (is_valid_session() && is_allowed_vente_id($numero)) {
       </div>
 
       <div id="boutons" class="list-group">
+        <button id="adherent" type="button" class="btn btn-default btn-lg" style="height:60px" data-toggle="collapse" data-target="#collapseadh" aria-expanded="false" aria-controls="collapseadh">Adherents</button>
         <button id="encaissement" class="btn btn-success btn-lg" style="height:60px">Encaisser</button>
         <button id="impression" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-print"></span></button>
         <button id="remboursement" class="btn btn-danger btn-lg" data-toggle="collapse" data-target="#collapserembou" aria-expanded="false" aria-controls="collapseExample">Remboursement</button>
@@ -219,6 +220,18 @@ if (is_valid_session() && is_allowed_vente_id($numero)) {
             <form action="../ifaces/remboursement.php?numero=<?= $numero ?>" method="post">
               <div class="input-group">
                 <input name="passrmb" id="passrmb" type="password" class="form-control" placeholder="Code remboursement caisse">
+                <span class="input-group-btn">
+                  <button class="btn btn-default">OK</button>
+                </span>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="collapse" id="collapseadh">
+          <div class="well">
+            <form action="#" autocomplete="off" >
+              <div class="input-group autocomplete">
+                <input name="detailadh" id="detailadh" type="text" class="form-control" placeholder="Adherent (nom prenom)">
                 <span class="input-group-btn">
                   <button class="btn btn-default">OK</button>
                 </span>
@@ -269,6 +282,7 @@ if (is_valid_session() && is_allowed_vente_id($numero)) {
     };
   </script>
   <script src="../js/ventes.js"></script>
+  <script src="../js/vente_adherent_autocompletion.js"></script>
 <?php
   require_once 'pied.php';
 } else {

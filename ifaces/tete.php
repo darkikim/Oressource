@@ -170,8 +170,11 @@ $nav = filter_visibles(new_nav_sorties());
                   <li>
                     <a href="../ifaces/utilisateurs.php">Utilisateurs</a>
                   </li>
-                  <li class="divider"></li>
                 <?php } ?>
+                <li>
+                  <a href="../ifaces/adherents.php">Adherents</a>
+                </li>
+                <li class="divider"></li>
 
                 <!-- Recycleur et conventions de sortie -->
                 <?php if ($can_parners) { ?>
