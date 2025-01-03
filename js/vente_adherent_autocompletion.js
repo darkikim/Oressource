@@ -101,5 +101,25 @@ function autocomplete(inp, arr) {
   });
 }
 
-var adherents = ["NOM, Prenom", "NOM2, Prenom2", "NOM3, Prenom3"];
+// Ex : var adherents = ["NOM, Prenom", "NOM2, Prenom2", "NOM3, Prenom3"];
+var adherents = [];
+fetch('../api/adherents.php', {method: 'GET'})
+  .then(response => response.json())
+  .then(data => {
+    console.log(data)
+    data.success.forEach((adherent, index) => {
+      adherents.push(`${adherent.nom}, ${adherent.prenom}, id ${adherent.id}`)
+    })
+  }).catch(err => {
+  console.log('Error:', err);
+});
+
 autocomplete(document.querySelector("#detailadh"), adherents);
+
+document.querySelector("#detailadh").parentElement.querySelector("button").addEventListener("click", (e)=>{
+  e.preventDefault()
+
+  var value = document.querySelector("#detailadh").value;
+
+  document.querySelector("#commentaire").value += " Adherent : "+value;
+})
