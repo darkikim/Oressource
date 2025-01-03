@@ -9,8 +9,20 @@ require_once '../core/validation.php';
 header("content-type:application/json");
 
 function get_adherents(PDO $bdd) {
-  $sql = 'SELECT id,nom,prenom FROM adherent';
-  return fetch_all($sql, $bdd);
+  $sql = 'SELECT id,nom,prenom,date_naissance,localisation FROM adherent';
+  $adherents = fetch_all($sql, $bdd);
+  if ($adherents){
+    for ($i = 0;$i < sizeof($adherents); $i++) {
+      preg_match('/\d{5}( [A-Za-z .-]+)?$/', $adherents[$i]["localisation"], $matches, PREG_OFFSET_CAPTURE);
+      if($matches) {
+        $adherents[$i]["localisation"] = $matches[0];
+      }else {
+        $adherents[$i]["localisation"] = 'CP Invalide';
+      }
+    }
+    return $adherents;
+   }
+  return [];
 }
 
 if (is_valid_session()) {

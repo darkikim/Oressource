@@ -108,7 +108,7 @@ fetch('../api/adherents.php', {method: 'GET'})
   .then(data => {
     console.log(data)
     data.success.forEach((adherent, index) => {
-      adherents.push(`${adherent.nom}, ${adherent.prenom}, id ${adherent.id}`)
+      adherents.push(`${adherent.nom}, ${adherent.prenom}, ${adherent.date_naissance}, ${adherent.localisation}, id ${adherent.id}`)
     })
   }).catch(err => {
   console.log('Error:', err);
