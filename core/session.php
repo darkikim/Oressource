@@ -200,6 +200,17 @@ function new_droits(PDO $bdd, array $droits): string {
     . droits($sorties, 's', $droits));
 }
 
+function new_adherent(string $nom, string $prenom, string $date_naissance, string $localisation, string $genre, string $commentaire ): array {
+  return [
+    'nom' => $nom,
+    'prenom' => $prenom,
+    'date_naissance' => $date_naissance,
+    'localisation' => $localisation,
+    'genre' => $genre,
+    'commentaire' => $commentaire,
+  ];
+}
+
 function new_utilisateur(string $nom, string $prenom, string $mail, string $droits, string $pass = ''): array {
   return [
     'nom' => $nom,

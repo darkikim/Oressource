@@ -155,6 +155,30 @@ function configInfo(array $props)
   return ob_get_clean();
 }
 
+
+function adherentInfo(array $props)
+{
+  ob_start();
+  ?>
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title">Informations</h3>
+    </div>
+    <div class="panel-body">
+      <?= textInput(['name' => 'nom', 'text' => "Nom:"], $props['nom']) ?>
+      <?= textInput(['name' => 'prenom', 'text' => "Prénom:"], $props['prenom']) ?>
+      <?= textInput(['name' => 'date_naissance', 'text' => "Date de naissance:"], $props['date_naissance']) ?>
+      <?= textInput(['name' => 'localisation', 'text' => "Adresse:"], $props['localisation']) ?>
+      <?= textInput(['name' => 'genre', 'text' => "Genre:"], $props['genre']) ?>
+      <?= textAreaInput(['name' => 'commentaire', 'text' => "Commentaire:"], $props['commentaire']) ?>
+    </div>
+  </div>
+  <?php
+  return ob_get_clean();
+}
+
+
+
 function buttonCollectesSorties()
 {
   ob_start();
@@ -653,6 +677,17 @@ function textInput(array $props, string $state): string
   return ob_get_clean();
 }
 
+function textAreaInput(array $props, string $state): string
+{
+  ob_start();
+?>
+  <label for="<?= $props['name'] ?>"><?= $props['text'] ?></label>
+  <textarea name="<?= $props['name'] ?>" id="<?= $props['name'] ?>" cols="30" rows="5" class="form-control"><?= $state ?></textarea>
+
+  <?php
+  return ob_get_clean();
+}
+
 function mailInput(array $props, string $state): string
 {
   ob_start();
@@ -662,6 +697,17 @@ function mailInput(array $props, string $state): string
 <?php
   return ob_get_clean();
 }
+
+function dateInput(array $props, string $state): string
+{
+  ob_start();
+  ?>
+  <label for="<?= $props['name'] ?>"><?= $props['text'] ?></label>
+  <input type="date" name="<?= $props['name'] ?>" id="<?= $props['name'] ?>" value="<?= $state ?>" class="form-control" autocomplete="off" required />
+  <?php
+  return ob_get_clean();
+}
+
 
 function modal(array $props)
 {

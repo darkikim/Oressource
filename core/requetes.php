@@ -189,6 +189,89 @@ function utilisateur_update(PDO $bdd, array $utilisateur, int $id)
   $stmt->closeCursor();
 }
 
+function adherents_id(PDO $bdd, int $id): array
+{
+  $sql = 'SELECT
+    id,
+    nom,
+    prenom,
+    date_naissance,
+    localisation,
+    genre,
+    commentaire
+  FROM adherent
+  WHERE adherent.id = :id';
+  return fetch_id($bdd, $sql, $id);
+}
+
+function adherents(PDO $bdd): array
+{
+  $sql = 'SELECT
+    id,
+    nom,
+    prenom,
+    date_naissance,
+    localisation,
+    genre,
+    commentaire
+    FROM adherent';
+  return fetch_all($sql, $bdd);
+}
+
+function adherent_insert(PDO $bdd, array $utilisateur): int
+{
+  global $_SESSION;
+  $sql = 'INSERT INTO adherent (
+    nom,
+    prenom,
+    date_naissance,
+    localisation,
+    genre,
+    commentaire
+      ) VALUES (
+    :nom,
+    :prenom,
+    :date_naissance,
+    :localisation,
+    :genre,
+    :commentaire)';
+  $stmt = $bdd->prepare($sql);
+  $stmt->bindParam(':nom', $utilisateur['nom'], PDO::PARAM_STR);
+  $stmt->bindParam(':prenom', $utilisateur['prenom'], PDO::PARAM_STR);
+  $stmt->bindParam(':date_naissance', $utilisateur['date_naissance'], PDO::PARAM_STR);
+  $stmt->bindParam(':localisation', $utilisateur['localisation'], PDO::PARAM_STR);
+  $stmt->bindParam(':genre', $utilisateur['genre'], PDO::PARAM_STR);
+  $stmt->bindParam(':commentaire', $utilisateur['commentaire'], PDO::PARAM_STR);
+  $stmt->execute();
+  $id = (int) $bdd->lastInsertId();
+  $stmt->closeCursor();
+  return $id;
+}
+
+function adherent_update(PDO $bdd, array $adherent, int $id)
+{
+  $sql = 'UPDATE adherent SET
+    nom = :nom,
+    prenom = :prenom,
+    date_naissance = :date_naissance,
+    localisation = :localisation,
+    genre = :genre,
+    commentaire = :commentaire
+  WHERE
+    id = :id';
+  $stmt = $bdd->prepare($sql);
+  $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+  $stmt->bindParam(':nom', $adherent['nom'], PDO::PARAM_STR);
+  $stmt->bindParam(':prenom', $adherent['prenom'], PDO::PARAM_STR);
+  $stmt->bindParam(':date_naissance', $adherent['date_naissance'], PDO::PARAM_STR);
+  $stmt->bindParam(':localisation', $adherent['localisation'], PDO::PARAM_STR);
+  $stmt->bindParam(':date_naissance', $adherent['date_naissance'], PDO::PARAM_STR);
+  $stmt->bindParam(':genre', $adherent['genre'], PDO::PARAM_STR);
+  $stmt->bindParam(':commentaire', $adherent['commentaire'], PDO::PARAM_STR);
+  $stmt->execute();
+  $stmt->closeCursor();
+}
+
 function sortie_id(PDO $bdd, int $id): array
 {
   $sql = 'SELECT * FROM sorties WHERE id = :id';
@@ -752,27 +835,27 @@ function viz_caisse(PDO $bdd, int $id_point_vente, int $offset): array
 
 function viz_collectes(PDO $bdd, int $id_point_collecte, int $offset): array
 {
-  $sql = "SELECT collectes.id as id, 
+  $sql = "SELECT collectes.id as id,
   collectes.timestamp as date_creation,
-  type_collecte.nom as type_collecte, 
-  localites.nom as localite, 
+  type_collecte.nom as type_collecte,
+  localites.nom as localite,
   localites.couleur as couleur,
-  collectes.commentaire as commentaire, 
-  utilisateurs.mail as mail, 
-  SUM(pesees_collectes.masse) as masse, 
-  COUNT(pesees_collectes.masse) as quantite 
-  from collectes 
-  inner join pesees_collectes 
-  on pesees_collectes.id_collecte = collectes.id 
-  and DATE(collectes.timestamp) = DATE(NOW()) 
-  and collectes.id_point_collecte= :id_point_collecte 
-  inner join localites 
-  on collectes.localisation = localites.id 
-  inner join utilisateurs 
-  on utilisateurs.id = collectes.id_createur 
-  inner join type_collecte 
-  on type_collecte.id = collectes.id_type_collecte 
-  group by id, type_collecte, localite 
+  collectes.commentaire as commentaire,
+  utilisateurs.mail as mail,
+  SUM(pesees_collectes.masse) as masse,
+  COUNT(pesees_collectes.masse) as quantite
+  from collectes
+  inner join pesees_collectes
+  on pesees_collectes.id_collecte = collectes.id
+  and DATE(collectes.timestamp) = DATE(NOW())
+  and collectes.id_point_collecte= :id_point_collecte
+  inner join localites
+  on collectes.localisation = localites.id
+  inner join utilisateurs
+  on utilisateurs.id = collectes.id_createur
+  inner join type_collecte
+  on type_collecte.id = collectes.id_type_collecte
+  group by id, type_collecte, localite
   order by collectes.timestamp desc
   limit 0, :offset";
   $reqCollectes = $bdd->prepare($sql);
@@ -941,15 +1024,15 @@ function bilan_transactions_espece(
     FROM ventes
     INNER JOIN vendus
     ON vendus.id_vente = ventes.id
-    WHERE DATE(ventes.timestamp) 
-    BETWEEN :du AND :au 
+    WHERE DATE(ventes.timestamp)
+    BETWEEN :du AND :au
     AND ventes.id_moyen_paiement = 1
     $cond";
-  $sql2 = "SELECT 
+  $sql2 = "SELECT
   SUM(autres_transactions.somme) as chiffre_degage_transaction
   FROM autres_transactions
-  WHERE DATE(autres_transactions.timestamp) 
-  BETWEEN :du AND :au 
+  WHERE DATE(autres_transactions.timestamp)
+  BETWEEN :du AND :au
   AND autres_transactions.id_moyen_paiement = 1
   $cond";
   $stmt = $bdd->prepare($sql);

@@ -8,7 +8,7 @@ CREATE TABLE `adherent` (
   `prenom` text CHARACTER SET utf8 NOT NULL,
   `localisation` text CHARACTER SET utf8 NOT NULL,
   `genre` text CHARACTER SET utf8 NOT NULL,
-  `commentaire` text CHARACTER SET utf8 NOT NULL,
+  `commentaire` text CHARACTER SET utf8,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

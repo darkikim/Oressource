@@ -12,7 +12,7 @@ if (is_valid_session()) {
   $nav = null;
   $info = null;
   if (!isset($_GET['id'])) {
-    $urlPost = '../moteur/inscription_post.php';
+    $urlPost = '../moteur/inscription_post_adherent.php';
 
     $nav = [
       'text' => "Gestion des adherents",
@@ -27,19 +27,22 @@ if (is_valid_session()) {
       'nom' => $_GET['nom'] ?? '',
       'prenom' => $_GET['prenom'] ?? '',
       'date_naissance' => $_GET['date_naissance'] ?? '',
+      'localisation' => $_GET['localisation'] ?? '',
+      'genre' => $_GET['genre'] ?? '',
+      'commentaire' => $_GET['commentaire'] ?? '',
     ];
   } else {
     $urlPost = '../moteur/modification_adherents_post.php';
-    $utilisateur = adherents_id($bdd, $_GET['id']);
+    $adherent = adherents_id($bdd, $_GET['id']);
 
     $nav = [
-      'text' => "Édition du profil utilisateur n°: {$utilisateur['id']} - {$utilisateur['mail']}",
+      'text' => "Édition de l'adhérent n°: {$adherent['id']} - {$adherent['nom']} {$adherent['prenom']}",
       'links' => [
         ['href' => 'adherents.php', 'text' => 'Inscription'],
         ['href' => 'edition_adherents.php', 'text' => 'Édition', 'state' => 'active']
       ]
     ];
-    $info = array_merge($utilisateur, ['type' => 'edit']);
+    $info = array_merge($adherent, ['type' => 'edit']);
   }
   ?>
   <div class="container">
@@ -50,7 +53,7 @@ if (is_valid_session()) {
       <?php } ?>
       <div class="row">
         <div class="col-md-4">
-          <?= configInfo($info) ?>
+          <?= adherentInfo($info) ?>
         </div>
 
         <div class="row">
