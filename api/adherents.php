@@ -13,7 +13,7 @@ function get_adherents(PDO $bdd) {
   $adherents = fetch_all($sql, $bdd);
   if ($adherents){
     for ($i = 0;$i < sizeof($adherents); $i++) {
-      preg_match('/\d{5}( [^a-zA-Z0-9àâáçéèèêëìîíïôòóùûüÂÊÎÔúÛÄËÏÖÜÀÆæÇÉÈŒœÙñý\'’,.]+)?$/', $adherents[$i]["localisation"], $matches, PREG_OFFSET_CAPTURE);
+      preg_match('/\d{5}( [\p{L}\p{P}\p{Zs}]+)?$/u', $adherents[$i]["localisation"], $matches, PREG_OFFSET_CAPTURE);
       if($matches) {
         $adherents[$i]["localisation"] = $matches[0];
       }else {
